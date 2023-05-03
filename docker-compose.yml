@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  database:
+    image: 'mysql:8.0'
+    container_name: db_terrapp
+    volumes:
+      - '.:/var/www/html/app'
+    environment:
+      - MYSQL_DATABASE=terrapp
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    ports:
+      - '3306:3306'
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    ports:
+      - '8888:15672'
+      - '5672:5672'
