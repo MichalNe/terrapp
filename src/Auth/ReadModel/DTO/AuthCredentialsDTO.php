@@ -8,12 +8,12 @@ use DateTime;
 class AuthCredentialsDTO
 {
     public function __construct(
-        private string $email,
-        private string $password,
-        private array $roles,
-        private string $token,
-        private DateTime $createdAt,
-        private ?DateTime $updatedAt,
+        private readonly string $email,
+        private readonly string $password,
+        private readonly array $roles,
+        private readonly string $token,
+        private readonly DateTime $createdAt,
+        private readonly ?DateTime $updatedAt,
     ) {
     }
 

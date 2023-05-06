@@ -4,23 +4,23 @@ declare(strict_types=1);
 namespace App\SharedKernel;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CustomAbstractController extends AbstractController
 {
-    public function responseException(NamedErrorException $e): Response
+    public function responseException(NamedErrorException $e): JsonResponse
     {
-        return new Response(
+        return new JsonResponse(
             json_encode([
                 'errorName' => $e->getErrorName(),
                 'errorCode' => $e->getCode(),
             ]),
-            Response::HTTP_BAD_REQUEST
+            JsonResponse::HTTP_BAD_REQUEST
         );
     }
 
-    /*public function present(Present $present): Response
+    public function presentResponse(Presenter $presenter): JsonResponse
     {
-
-    }*/
+        return new JsonResponse($presenter->present(), JsonResponse::HTTP_OK);
+    }
 }

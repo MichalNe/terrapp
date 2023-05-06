@@ -13,6 +13,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\SharedKernel\Presenter:
+        autowire: false
+
     App\SharedKernel\Validator:
         autowire: true
 

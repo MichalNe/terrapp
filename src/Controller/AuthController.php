@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Auth\Presentation\AuthPresenter;
 use App\Auth\Presentation\Validation\AuthValidator;
 use App\Auth\ReadModel\AuthReadModel;
 use App\Auth\ReadModel\Query\DataToFindUser;
 use App\Auth\SharedKernel\AuthException;
 use App\SharedKernel\CustomAbstractController;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,15 +23,15 @@ class AuthController extends CustomAbstractController
         AuthReadModel $authReadModel,
         AuthValidator $validator
     ): JsonResponse {
-        $jsonData = json_decode($request->getContent(), true);
-
-        $errors = $validator->validCreateUser($jsonData);
-
-        if ($errors !== []) {
-            return new JsonResponse($errors, JsonResponse::HTTP_BAD_REQUEST);
-        }
-
         try {
+            $jsonData = json_decode($request->getContent(), true);
+
+            $errors = $validator->validCreateUser($jsonData);
+
+            if ($errors !== []) {
+                return new JsonResponse($errors, JsonResponse::HTTP_BAD_REQUEST);
+            }
+
             $user = $authReadModel->getUser(
                 new DataToFindUser(
                     $jsonData['email'],
@@ -39,11 +39,11 @@ class AuthController extends CustomAbstractController
                 )
             );
 
-            dd($user);
+            return $this->presentResponse(
+                new AuthPresenter($user)
+            );
         } catch (AuthException $e) {
-            $this->responseException($e);
+            return $this->responseException($e);
         }
-
-        return new JsonResponse();
     }
 }

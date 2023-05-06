@@ -5,13 +5,9 @@ namespace App\Auth\Infrastructure\Factory;
 
 use App\Auth\DomainModel\AuthCredentials;
 use App\Entity\User;
-use DateTime;
 
 class AuthCredentialsFactory
 {
-    /**
-     * @throws \Exception
-     */
     public static function createFromEntity(User $user): AuthCredentials
     {
         return new AuthCredentials(
