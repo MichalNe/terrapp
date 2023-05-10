@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace App\Auth\DomainModel;
 
+use App\Entity\User;
 use DateTime;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AuthCredentials implements PasswordAuthenticatedUserInterface, UserInterface
+class AuthCredentials extends User implements PasswordAuthenticatedUserInterface, UserInterface
 {
+    public const DEFAULT_ROLES = ['ROLE_USER'];
+
     public function __construct(
         private readonly string $email,
         private readonly ?string $password = null,
@@ -45,7 +48,7 @@ class AuthCredentials implements PasswordAuthenticatedUserInterface, UserInterfa
 
     public function isPasswordValid(string $plainPassword): bool
     {
-        return password_verify($plainPassword, $this->password);
+        return $this->password === hash('sha256', $plainPassword);
     }
 
     public function eraseCredentials()
@@ -56,5 +59,10 @@ class AuthCredentials implements PasswordAuthenticatedUserInterface, UserInterfa
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    public static function hashPassword(string $plainPassword): string
+    {
+        return hash('sha256', $plainPassword);
     }
 }

@@ -30,7 +30,8 @@ security:
 
     access_control:
         - { path: ^/auth/login, roles: PUBLIC_ACCESS }
-        - { path: ^/auth,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/auth/register, roles: PUBLIC_ACCESS }
+#        - { path: ^/auth,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
