@@ -5,10 +5,12 @@ namespace App\Auth\Infrastructure;
 
 use App\Auth\DomainModel\AuthCredentials;
 use App\Auth\DomainModel\AuthRepository;
+use App\Auth\DomainModel\Exception\UserNotCreatedException;
 use App\Auth\DomainModel\Exception\UserNotFoundException;
 use App\Auth\Infrastructure\Factory\AuthCredentialsFactory;
 use App\Auth\ReadModel\Query\DataToFindUser;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AuthDbRepository implements AuthRepository
@@ -42,5 +44,30 @@ class AuthDbRepository implements AuthRepository
         }
 
         return AuthCredentialsFactory::createFromEntity($user);
+    }
+
+    /**
+     * @throws UserNotCreatedException
+     */
+    public function saveUser(AuthCredentials $authCredentials): void
+    {
+        try {
+            $qb = $this->entityManager->getConnection();
+
+            $sql = "INSERT INTO user (email, password, roles, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+
+            $qb->executeQuery(
+                $sql,
+                [
+                    $authCredentials->getEmail(),
+                    $authCredentials->getPassword(),
+                    json_encode($authCredentials->getRoles()),
+                    ($authCredentials->getCreatedAt())->format('Y-m-d H:i:s'),
+                    $authCredentials->getUpdatedAt(),
+                ]
+            );
+        } catch (Exception $e) {
+            throw new UserNotCreatedException();
+        }
     }
 }

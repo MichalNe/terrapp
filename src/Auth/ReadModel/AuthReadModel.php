@@ -25,7 +25,6 @@ class AuthReadModel
      */
     public function getUser(DataToFindUser $query): AuthCredentialsDTO
     {
-
         try {
             $user = $this->authRepository->getUser($query);
 
