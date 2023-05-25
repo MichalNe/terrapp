@@ -9,6 +9,5 @@ services:
     environment:
       - MYSQL_DATABASE=terrapp
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      - MYSQL_ROOT_PASSWORD=terrapp
     ports:
       - '3306:3306'
