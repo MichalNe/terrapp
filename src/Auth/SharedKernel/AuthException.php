@@ -13,6 +13,4 @@ class AuthException extends NamedErrorException
     public const USER_ALREADY_EXISTS_CODE = 2002;
     public const INVALID_USER_CREDENTIALS = 'auth.invalidUserCredentials';
     public const INVALID_USER_CREDENTIALS_CODE = 2003;
-    public const USER_NOT_CREATED = 'auth.userNotCreated';
-    public const USER_NOT_CREATED_CODE = 2004;
 }

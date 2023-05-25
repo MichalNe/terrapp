@@ -11,10 +11,10 @@ class CustomAbstractController extends AbstractController
     public function responseException(NamedErrorException $e): JsonResponse
     {
         return new JsonResponse(
-            [
+            json_encode([
                 'errorName' => $e->getErrorName(),
                 'errorCode' => $e->getCode(),
-            ],
+            ]),
             JsonResponse::HTTP_BAD_REQUEST
         );
     }
