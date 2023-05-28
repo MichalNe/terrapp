@@ -1,0 +1,7 @@
+animal_controllers:
+  resource: ../../src/Animal/Application/Controller/
+  type: annotation
+
+user_controllers:
+  resource: ../../src/User/Application/Controller/
+  type: annotation
