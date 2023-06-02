@@ -10,9 +10,11 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTNotFoundEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 #[AsEventListener]
-class AuthenticationFailureListener implements EventSubscriberInterface
+class AuthenticationListener implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {

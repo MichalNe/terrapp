@@ -16,3 +16,13 @@ services:
     App\User\Application\Command\DataToCreateUserHandler:
         tags:
             - { name: messenger.message_handler }
+
+    App\Animal\Infrastructure\AnimalDbRepository:
+        autowire: true
+
+    App\Animal\DomainModel\AnimalRepository:
+        class: 'App\Animal\Infrastructure\AnimalDbRepository'
+
+    App\Animal\Application\AnimalService:
+        arguments:
+            $animalRepository: '@App\Animal\DomainModel\AnimalRepository'

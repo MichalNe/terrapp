@@ -9,12 +9,13 @@ use App\User\Web\Validation\UserValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/auth')]
 class UserController extends CustomAbstractController
 {
-    #[Route('/register', name: 'user_register')]
+    #[Route('/register', name: 'user_register', methods: ['POST'])]
     public function index(Request $request, ValidatorInterface $validator, CommandBus $commandBus): JsonResponse
     {
         $decodedJson = json_decode($request->getContent(), true);
@@ -29,9 +30,6 @@ class UserController extends CustomAbstractController
             new DataToCreateUser($decodedJson['email'], $decodedJson['password'])
         );
 
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/UserController.php',
-        ]);
+        return new JsonResponse();
     }
 }

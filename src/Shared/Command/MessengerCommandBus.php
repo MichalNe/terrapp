@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Command;
 
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class MessengerCommandBus implements CommandBus
